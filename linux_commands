@@ -1,0 +1,109 @@
+Useful commands
+
+=====================================================================================================================================================
+
+2. The telnet command syntax is the following: telnet [ host [ port ] ]
+In a client-server architecture, you can use telnet to make sure that no firewalls in between are blocking incoming connections to the server.  
+eg: telnet 0 2003 
+For example, if you want to test connectivity to a remote service using port 20011 on host test.netbeez.net, you’ll have to type:
+ telnet test.netbeez.net 20011
+ 
+=====================================================================================================================================================
+
+to increase space
+fdisk -l
+df -h
+partprobe
+pvs
+pvcreate /dev/sdc
+vgextend datavg /dev/sdc
+lvextend -L +18G /dev/mapper/datavg-lv_app
+xfs_growfs /dev/mapper/datavg-lv_app
+
+
+Def:
+partprobe is a program that informs the operating system kernel of partition table changes.
+The pvs command provides physical volume information in a configurable form, displaying one line per physical volume. 
+The pvcreate command initializes a physical volume for later use by the Logical Volume Manager for Linux. Each physical volume can be a disk partition, whole disk, meta device, or loopback file.
+vgextend allows you to add one or more initialized physical volumes to an existing volume group to extend it in size. Moreover, it allows you to re-add a physical volume that has gone missing previously, due to a transient device failure, without re-initialising it.
+
+
+
+
+
+==========================================================================================================================================================
+
+Useful commands for monitoring alerts
+
+tail -f <***.log>
+grep -r <error/any term u need to grep from all files in current directory>
+grep -r error, grep -r "ssl connection cloud"
+nslookup <ip>
+nslookup is an abbreviation of name server lookup and allows you to query your DNS service. The tool is typically used to obtain a domain name via your command line interface (CLI), receive IP address mapping details, and lookup DNS records. This information is retrieved from the DNS cache of your chosen DNS server.
+telnet 0 2003
+du -sch *
+df -h
+ps -ef| grep <processname>
+ls -lrt
+grep -r "term u need to search in entire directory"
+
+==============================================================================================================================
+
+run for loop in linux
+
+have a file with hostname-> hostlist.txt
+
+for i in `cat hostlist.txt`;do ssh $i "service wpmon restart";done
+
+====================================================================================================================================
+
+gzip a file in current location
+
+gzip <file>
+
+gzip a file to new location with new name (pls note original file will not be removed )
+eg: file=spdb_gateway.log
+
+gzip -c spdb_gateway.log > /app/spdb_log_bkp/spdb_gateway.log-20220530.gz
+
+gzip -c wpmon.get_spdb_attr_data.err > /var/eem_log_bkp/wpmon.get_spdb_attr_data.err-20220601.gz
+
+==========================================================================================================================================
+symlink(symbolic link)
+
+create symlink
+
+ln -s <path> <simlinkName>
+
+ln -s /var/eem_log_bkp eem_log_bkp
+
+==========================================================================================================================================
+to check all services on host
+
+service --status-all
+========================================================================================================================================
+
+To add cron job
+
+create the script to take backup and clear logs every day 12.00th hr
+
+login to feed-ch2-01p.sys.company.net
+
+- cd /app
+- mkdir stats_bkp
+- cd /usr/local/maas/
+- vi push-stats-log.sh
+
+	#!/bin/bash
+	timestamp=$(date +%Y%m%d)
+	gzip -c /var/opt/feedserver/log/stats.log > /app/stats_bkp/stats.log_$timestamp.gz
+	> /var/opt/feedserver/log/stats.log
+
+- chmod 777 push-stats-log.sh
+ 
+- run crontab -e
+	add your cron job there and save
+	0 */12 * * * /usr/local/maas/push-stats-log.sh > /dev/null 2>&1
+
+- check using crontab -l command.
+========================================================================================================================================
