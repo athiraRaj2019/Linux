@@ -106,4 +106,10 @@ login to feed-ch2-01p.sys.company.net
 	0 */12 * * * /usr/local/maas/push-stats-log.sh > /dev/null 2>&1
 
 - check using crontab -l command.
+
+
+To check for existing cron jobs
+crontab -l
+
+cd /etc/cron.d/
 ========================================================================================================================================
