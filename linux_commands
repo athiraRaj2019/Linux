@@ -113,3 +113,5 @@ crontab -l
 
 cd /etc/cron.d/
 ========================================================================================================================================
+to reduce log file size say by 1GB use truncate
+truncate -s 1G soam_poller-10_20.log
